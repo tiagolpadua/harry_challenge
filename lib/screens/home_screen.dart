@@ -6,10 +6,20 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text(
+          'Harry Challenge',
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {  },
+        child: Icon(Icons.favorite),
+      ),
       body: Column(
-        children: [
-
-        ],
+        children: [Image.asset('assets/images/harry_potter.png')],
       ),
     );
   }

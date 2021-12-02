@@ -10,10 +10,15 @@ class HarryChallenge extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: ThemeData(
-        primaryColor: Colors.black,
+        primaryColor: Color(0xFF335c67),
         colorScheme: ColorScheme.fromSwatch().copyWith(
-          primary: Colors.black,
-          secondary: Colors.black,
+          primary: Color(0xFF335C67),
+          secondary: Color(0xFFE09F3E),
+        ),
+        textTheme: TextTheme(
+          bodyText1: TextStyle(
+            color: Colors.white,
+          ),
         ),
       ),
       home: HomeScreen(),
