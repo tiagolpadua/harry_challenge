@@ -20,7 +20,6 @@ class HomeScreen extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          _networkManager.getData();
         },
         child: Icon(Icons.favorite),
       ),
@@ -28,10 +27,16 @@ class HomeScreen extends StatelessWidget {
         children: [
           Image.asset('assets/images/harry_potter.png'),
           Expanded(
-            child: ListView(
-              children: [
-                CharacterItem(),
-              ],
+            child: FutureBuilder<dynamic>(
+              future: _networkManager.getData(),
+              builder: (context, snapshot) {
+                final List<Character> characters = snapshot.data ?? 0.0;
+                return ListView.builder(
+                  itemBuilder: (context, index) {
+                    final Character character = characters[index];
+                    return CharacterItem(character);
+                  },);
+              },
             ),
           ),
         ],

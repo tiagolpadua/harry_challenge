@@ -20,4 +20,8 @@ class Character {
     eyeColour = json['eyeColour'],
     image = json['image'];
 
+  @override
+  String toString() {
+    return 'Character: name: $name, house: $house';
+  }
 }

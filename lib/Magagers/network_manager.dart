@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:harry_challenge/components/centered_message.dart';
+import 'package:harry_challenge/components/character.dart';
 import 'package:harry_challenge/components/components.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -17,8 +18,9 @@ class NetworkManager {
         );
 
     if (response.statusCode == 200) {
-      String data = response.body;
-      return print(data);
+      final List<dynamic> decodedJson = jsonDecode(response.body);
+      final characterData = decodedJson.map((dynamic json) => Character.fromJson(json)).toList();
+      return characterData;
     } else {
       return CenteredMessage(
         'Erro: ${response.statusCode}',

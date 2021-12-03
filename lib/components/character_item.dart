@@ -2,10 +2,24 @@ import 'package:flutter/material.dart';
 import 'package:harry_challenge/components/character.dart';
 
 class CharacterItem extends StatelessWidget {
+  final Character character;
 
-  // final Character character;
-  //
-  // CharacterItem(this.character);
+  CharacterItem(this.character);
+
+  Color getHouseColor(String house) {
+    switch (house) {
+      case "Gryffindor":
+        return Colors.red.shade700;
+      case "Slytherin":
+        return Colors.green.shade700;
+      case "Ravenclaw":
+        return Colors.blue.shade700;
+      case "Hufflepuff":
+        return Colors.yellow.shade700;
+      default:
+        return Colors.grey.shade700;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +31,7 @@ class CharacterItem extends StatelessWidget {
           borderRadius: BorderRadius.all(Radius.circular(5.0)),
           boxShadow: [
             BoxShadow(
-              color: Colors.red.withOpacity(0.5),
+              color: getHouseColor(character.house),
               spreadRadius: 2,
               blurRadius: 1,
               offset: Offset(0, 2),
@@ -32,26 +46,31 @@ class CharacterItem extends StatelessWidget {
                 width: 50.0,
                 height: 50.0,
                 decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  image: DecorationImage(
-                      image: NetworkImage('http://hp-api.herokuapp.com/images/harry.jpg'),
-                    fit: BoxFit.fitWidth,
-                  )
-                ),
+                    shape: BoxShape.circle,
+                    image: DecorationImage(
+                      image: NetworkImage(character.image),
+                      fit: BoxFit.fitWidth,
+                    )),
               ),
-              SizedBox(width: 15.0,),
+              SizedBox(
+                width: 15.0,
+              ),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text('Harry Potter',
-                  style: TextStyle(
-                    fontSize: 24.0,
-                  ),),
-                  Text('Gryffindor',
-                  style: TextStyle(
-                    fontSize: 16.0,
-                    color: Colors.grey.shade700,
-                  ),),
+                  Text(
+                    character.name,
+                    style: TextStyle(
+                      fontSize: 24.0,
+                    ),
+                  ),
+                  Text(
+                    character.house,
+                    style: TextStyle(
+                      fontSize: 16.0,
+                      color: Colors.grey.shade700,
+                    ),
+                  ),
                 ],
               ),
             ],
