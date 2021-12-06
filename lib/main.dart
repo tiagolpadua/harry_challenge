@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:harry_challenge/database/app_database.dart';
-import 'package:harry_challenge/models/favorite_character.dart';
 import 'package:harry_challenge/screens/home_screen.dart';
 
 void main() async {

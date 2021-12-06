@@ -76,36 +76,36 @@ class _CharacterScreenState extends State<CharacterScreen> {
                   ),
                   Expanded(
                     child: FutureBuilder<List<FavoriteCharacter>>(
-                      future: _dao.getFavoriteCharacters(),
-                      builder: (context, snapshot) {
-                        final List<FavoriteCharacter> favoriteCharacters = snapshot.data ?? [];
-                        int _favorite = getFavoriteStatus(favoriteCharacters);
-                        return Align(
-                          alignment: Alignment.centerRight,
-                          child: Liked(
-                            isSelected: _favorite == 0 ? false : true,
-                            onClick: () {
-                              setState(
-                                    () {
-                                  if (_favorite == 0) {
-                                    _favorite = 1;
-                                    _dao.save(
-                                      FavoriteCharacter(
-                                        widget.character.name,
-                                        _favorite,
-                                      ),
-                                    );
-                                  } else {
-                                    _favorite = 0;
-                                    _dao.delete(widget.character.name);
-                                  }
-                                },
-                              );
-                            },
-                          ),
-                        );
-                      }
-                    ),
+                        future: _dao.getFavoriteCharacters(),
+                        builder: (context, snapshot) {
+                          final List<FavoriteCharacter> favoriteCharacters =
+                              snapshot.data ?? [];
+                          int _favorite = getFavoriteStatus(favoriteCharacters);
+                          return Align(
+                            alignment: Alignment.centerRight,
+                            child: Liked(
+                              isSelected: _favorite == 0 ? false : true,
+                              onClick: () {
+                                setState(
+                                  () {
+                                    if (_favorite == 0) {
+                                      _favorite = 1;
+                                      _dao.save(
+                                        FavoriteCharacter(
+                                          widget.character.name,
+                                          _favorite,
+                                        ),
+                                      );
+                                    } else {
+                                      _favorite = 0;
+                                      _dao.delete(widget.character.name);
+                                    }
+                                  },
+                                );
+                              },
+                            ),
+                          );
+                        }),
                   ),
                 ],
               ),
@@ -137,7 +137,22 @@ class _CharacterScreenState extends State<CharacterScreen> {
               SizedBox(
                 height: 10,
               ),
-              InformationText('Cor dos olhos', widget.character.eyeColour),
+              RichText(
+                text: TextSpan(
+                  style: TextStyle(color: Colors.black, fontSize: 22),
+                  children: [
+                    TextSpan(
+                        text: 'Cor dos olhos: ',
+                        style: TextStyle(fontWeight: FontWeight.bold)),
+                    WidgetSpan(
+                      child: Icon(
+                        Icons.remove_red_eye,
+                        color: eyeColor(widget.character.eyeColour),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
             ],
           ),
         ),

@@ -1,5 +1,3 @@
-import 'package:flutter/material.dart';
-import 'package:harry_challenge/components/centered_message.dart';
 import 'package:harry_challenge/models/character.dart';
 import 'package:harry_challenge/components/components.dart';
 import 'package:http/http.dart' as http;

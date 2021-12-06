@@ -1,5 +1,4 @@
 import 'package:harry_challenge/database/character_dao.dart';
-import 'package:harry_challenge/models/favorite_character.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
