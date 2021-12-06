@@ -1,0 +1,168 @@
+import 'package:flutter/material.dart';
+import 'package:harry_challenge/database/character_dao.dart';
+import 'package:harry_challenge/models/character.dart';
+import 'package:harry_challenge/components/components.dart';
+import 'package:harry_challenge/models/favorite_character.dart';
+import 'package:harry_challenge/components/liked_item.dart';
+
+class CharacterScreen extends StatefulWidget {
+  final Character character;
+
+  CharacterScreen(this.character);
+
+  @override
+  _CharacterScreenState createState() => _CharacterScreenState();
+}
+
+class _CharacterScreenState extends State<CharacterScreen> {
+  final CharacterDao _dao = CharacterDao();
+
+  int getFavoriteStatus(results) {
+    int favorite = 0;
+    for (FavoriteCharacter result in results) {
+      if (result.name == widget.character.name) {
+        favorite = result.favorite;
+      }
+    }
+    return favorite;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(
+          widget.character.name,
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        backgroundColor: getHouseColor(widget.character.house),
+      ),
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                children: [
+                  Image.network(
+                    widget.character.image,
+                    width: 120.0,
+                  ),
+                  SizedBox(
+                    width: 20.0,
+                  ),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          widget.character.name,
+                          style: TextStyle(
+                            fontSize: 24.0,
+                            fontWeight: FontWeight.w900,
+                          ),
+                        ),
+                        Text(
+                          widget.character.house,
+                          style: TextStyle(
+                            fontSize: 18.0,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Expanded(
+                    child: FutureBuilder<List<FavoriteCharacter>>(
+                      future: _dao.getFavoriteCharacters(),
+                      builder: (context, snapshot) {
+                        final List<FavoriteCharacter> favoriteCharacters = snapshot.data ?? [];
+                        int _favorite = getFavoriteStatus(favoriteCharacters);
+                        return Align(
+                          alignment: Alignment.centerRight,
+                          child: Liked(
+                            isSelected: _favorite == 0 ? false : true,
+                            onClick: () {
+                              setState(
+                                    () {
+                                  if (_favorite == 0) {
+                                    _favorite = 1;
+                                    _dao.save(
+                                      FavoriteCharacter(
+                                        widget.character.name,
+                                        _favorite,
+                                      ),
+                                    );
+                                  } else {
+                                    _favorite = 0;
+                                    _dao.delete(widget.character.name);
+                                  }
+                                },
+                              );
+                            },
+                          ),
+                        );
+                      }
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(
+                height: 15,
+              ),
+              Divider(),
+              SizedBox(
+                height: 15,
+              ),
+              InformationText('Nome', widget.character.name),
+              SizedBox(
+                height: 10,
+              ),
+              InformationText('Casa', widget.character.house),
+              SizedBox(
+                height: 10,
+              ),
+              InformationText('Ator(a)', widget.character.actor),
+              SizedBox(
+                height: 10,
+              ),
+              InformationText(
+                  'Aluno(a)', widget.character.hogwartsStudent ? 'Sim' : 'Não'),
+              SizedBox(
+                height: 10,
+              ),
+              InformationText('Aniversário', widget.character.dateOfBirth),
+              SizedBox(
+                height: 10,
+              ),
+              InformationText('Cor dos olhos', widget.character.eyeColour),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class InformationText extends StatelessWidget {
+  final String title;
+  final String information;
+
+  InformationText(this.title, this.information);
+
+  @override
+  Widget build(BuildContext context) {
+    return RichText(
+      text: TextSpan(
+        style: TextStyle(color: Colors.black, fontSize: 22),
+        children: <TextSpan>[
+          TextSpan(
+              text: '$title: ', style: TextStyle(fontWeight: FontWeight.bold)),
+          TextSpan(text: information),
+        ],
+      ),
+    );
+  }
+}
