@@ -36,39 +36,54 @@ class _HomeScreenState extends State<HomeScreen> {
         },
         child: Icon(Icons.favorite),
       ),
-      body: Column(
-        children: [
-          Image.asset('assets/images/harry_potter.png'),
-          Expanded(
-            child: FutureBuilder<dynamic>(
-              future: _networkManager.getData(),
-              builder: (context, snapshot) {
-                switch (snapshot.connectionState) {
-                  case ConnectionState.none:
-                    break;
-                  case ConnectionState.waiting:
-                    return Progress();
-                  case ConnectionState.active:
-                    break;
-                  case ConnectionState.done:
-                    if (snapshot.hasData) {
-                      final List<Character> characters = snapshot.data ?? 0.0;
-                      return ListView.builder(
-                        itemBuilder: (context, index) {
-                          final Character character = characters[index];
-                          return CharacterItem(character);
-                        },
+      body: LayoutBuilder(
+        builder: (BuildContext context, BoxConstraints constraints) =>
+            SingleChildScrollView(
+          child: ConstrainedBox(
+            constraints: BoxConstraints(
+              minHeight: constraints.maxHeight,
+            ),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Image.asset('assets/images/harry_potter.png'),
+                Flexible(
+                  fit: FlexFit.loose,
+                  child: FutureBuilder<dynamic>(
+                    future: _networkManager.getData(),
+                    builder: (context, snapshot) {
+                      switch (snapshot.connectionState) {
+                        case ConnectionState.none:
+                          break;
+                        case ConnectionState.waiting:
+                          return Progress();
+                        case ConnectionState.active:
+                          break;
+                        case ConnectionState.done:
+                          if (snapshot.hasData) {
+                            final List<Character> characters =
+                                snapshot.data ?? 0.0;
+                            return ListView.builder(
+                              shrinkWrap: true,
+                              itemCount: characters.length,
+                              itemBuilder: (context, index) {
+                                final Character character = characters[index];
+                                return CharacterItem(character);
+                              },
+                            );
+                          }
+                      }
+                      return CenteredMessage(
+                        'No information found',
+                        icon: Icons.warning,
                       );
-                    }
-                }
-                return CenteredMessage(
-                  'No information found',
-                  icon: Icons.warning,
-                );
-              },
+                    },
+                  ),
+                ),
+              ],
             ),
           ),
-        ],
+        ),
       ),
     );
   }
