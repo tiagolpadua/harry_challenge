@@ -39,6 +39,7 @@ class _HomeScreenState extends State<HomeScreen> {
       body: LayoutBuilder(
         builder: (BuildContext context, BoxConstraints constraints) =>
             SingleChildScrollView(
+          physics: AlwaysScrollableScrollPhysics(),
           child: ConstrainedBox(
             constraints: BoxConstraints(
               minHeight: constraints.maxHeight,
@@ -64,6 +65,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             final List<Character> characters =
                                 snapshot.data ?? 0.0;
                             return ListView.builder(
+                              primary: false,
                               shrinkWrap: true,
                               itemCount: characters.length,
                               itemBuilder: (context, index) {

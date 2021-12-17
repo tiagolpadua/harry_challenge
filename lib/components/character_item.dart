@@ -41,7 +41,7 @@ class CharacterItem extends StatelessWidget {
                   decoration: BoxDecoration(
                       shape: BoxShape.circle,
                       image: DecorationImage(
-                        image: NetworkImage(character.image),
+                        image: character.image != '' ? NetworkImage(character.image) : Image.asset('assets/images/hp_logo.jpg').image,
                         fit: BoxFit.fitWidth,
                       )),
                 ),
