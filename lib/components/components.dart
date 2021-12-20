@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 
 final String url = 'http://hp-api.herokuapp.com/api/characters';
 
+final harryPotterLogoImage = 'https://uploads.turbologo.com/uploads/design/hq_preview_image/5097676/draw_svg20210617-26747-23281c.svg.png';
+
 class Progress extends StatelessWidget {
 
   final String message;

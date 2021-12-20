@@ -35,15 +35,17 @@ class CharacterItem extends StatelessWidget {
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Container(
-                  width: 50.0,
-                  height: 50.0,
-                  decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      image: DecorationImage(
-                        image: character.image != '' ? NetworkImage(character.image) : Image.asset('assets/images/hp_logo.jpg').image,
-                        fit: BoxFit.fitWidth,
-                      )),
+                Flexible(
+                  child: Container(
+                    width: 50.0,
+                    height: 50.0,
+                    decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        image: DecorationImage(
+                          image: character.image != '' ? NetworkImage(character.image) : Image.asset('assets/images/hp_logo.jpg').image,
+                          fit: BoxFit.fitWidth,
+                        )),
+                  ),
                 ),
                 SizedBox(
                   width: 15.0,

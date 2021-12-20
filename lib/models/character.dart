@@ -37,4 +37,14 @@ class Character {
   String toString() {
     return 'Character: name: $name, house: $house';
   }
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is Character &&
+          runtimeType == other.runtimeType &&
+          name == other.name;
+
+  @override
+  int get hashCode => name.hashCode;
 }

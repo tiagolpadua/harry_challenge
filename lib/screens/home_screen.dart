@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:harry_challenge/Managers/network_manager.dart';
 import 'package:harry_challenge/components/centered_message.dart';
 import 'package:harry_challenge/models/character.dart';
 import 'package:harry_challenge/components/character_item.dart';
 import 'package:harry_challenge/components/components.dart';
 import 'package:harry_challenge/screens/favorite_screen.dart';
+import 'package:harry_challenge/widgets/app_dependencies.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -12,10 +12,10 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  final NetworkManager _networkManager = NetworkManager();
 
   @override
   Widget build(BuildContext context) {
+    final dependencies = AppDependencies.of(context);
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -51,7 +51,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 Flexible(
                   fit: FlexFit.loose,
                   child: FutureBuilder<dynamic>(
-                    future: _networkManager.getData(),
+                    future: dependencies!.networkManager.getData(),
                     builder: (context, snapshot) {
                       switch (snapshot.connectionState) {
                         case ConnectionState.none:

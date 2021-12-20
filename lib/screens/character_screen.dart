@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:harry_challenge/database/character_dao.dart';
 import 'package:harry_challenge/models/character.dart';
 import 'package:harry_challenge/components/components.dart';
 import 'package:harry_challenge/models/favorite_character.dart';
 import 'package:harry_challenge/components/liked_item.dart';
+import 'package:harry_challenge/widgets/app_dependencies.dart';
 
 class CharacterScreen extends StatefulWidget {
   final Character character;
@@ -15,7 +15,6 @@ class CharacterScreen extends StatefulWidget {
 }
 
 class _CharacterScreenState extends State<CharacterScreen> {
-  final CharacterDao _dao = CharacterDao();
 
   int getFavoriteStatus(results) {
     int favorite = 0;
@@ -29,6 +28,7 @@ class _CharacterScreenState extends State<CharacterScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final dependencies = AppDependencies.of(context);
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -48,7 +48,7 @@ class _CharacterScreenState extends State<CharacterScreen> {
               Row(
                 children: [
                   Image.network(
-                    widget.character.image,
+                    widget.character.image != '' ? widget.character.image : harryPotterLogoImage,
                     width: 120.0,
                   ),
                   SizedBox(
@@ -76,7 +76,7 @@ class _CharacterScreenState extends State<CharacterScreen> {
                   ),
                   Expanded(
                     child: FutureBuilder<List<FavoriteCharacter>>(
-                        future: _dao.getFavoriteCharacters(),
+                        future: dependencies!.characterDao.getFavoriteCharacters(),
                         builder: (context, snapshot) {
                           final List<FavoriteCharacter> favoriteCharacters =
                               snapshot.data ?? [];
@@ -90,7 +90,7 @@ class _CharacterScreenState extends State<CharacterScreen> {
                                   () {
                                     if (_favorite == 0) {
                                       _favorite = 1;
-                                      _dao.save(
+                                      dependencies.characterDao.save(
                                         FavoriteCharacter(
                                           widget.character.name,
                                           _favorite,
@@ -98,7 +98,7 @@ class _CharacterScreenState extends State<CharacterScreen> {
                                       );
                                     } else {
                                       _favorite = 0;
-                                      _dao.delete(widget.character.name);
+                                      dependencies.characterDao.delete(widget.character.name);
                                     }
                                   },
                                 );

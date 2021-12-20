@@ -3,6 +3,7 @@ import 'package:harry_challenge/components/centered_message.dart';
 import 'package:harry_challenge/components/components.dart';
 import 'package:harry_challenge/database/character_dao.dart';
 import 'package:harry_challenge/models/favorite_character.dart';
+import 'package:harry_challenge/widgets/app_dependencies.dart';
 
 class FavoriteScreen extends StatefulWidget {
   const FavoriteScreen({Key? key}) : super(key: key);
@@ -13,10 +14,9 @@ class FavoriteScreen extends StatefulWidget {
 
 class _FavoriteScreenState extends State<FavoriteScreen> {
 
-  final CharacterDao _dao = CharacterDao();
-
   @override
   Widget build(BuildContext context) {
+    final dependencies = AppDependencies.of(context);
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -32,7 +32,7 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
           Expanded(
               child: FutureBuilder<dynamic>(
                 initialData: [],
-                future: _dao.getFavoriteCharacters(),
+                future: dependencies!.characterDao.getFavoriteCharacters(),
                 builder: (context, snapshot) {
                   switch (snapshot.connectionState) {
                     case ConnectionState.none:
