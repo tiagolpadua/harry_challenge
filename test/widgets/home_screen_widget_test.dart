@@ -52,7 +52,7 @@ main() {
     expect(fabFavoriteItem, findsOneWidget);
   });
 
-  testWidgets('Should display the character Foo', (tester) async {
+  testWidgets('Should display the character Personagem Foo', (tester) async {
     final mockNetworkManager = MockNetworkManager();
 
     when(mockNetworkManager.getData()).thenAnswer(
